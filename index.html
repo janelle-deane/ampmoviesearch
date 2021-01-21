@@ -11,6 +11,8 @@
     <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
     <!-- amp-bind -->
     <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
+    <!-- amp mustache -->
+    <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
     <title>Best Movie Search Ever! </title>
     <!-- Update with actual url after deployment it will direct to HTML in itself since no other HTML file exists-->
     <link rel="canonical" href="./regular-html-version.html">
@@ -96,7 +98,15 @@
             <div class="movie-search">
                 <!-- Text input for title -->
                 <!-- <amp-script layout="container" script="state-script" class="sample"> -->
-                <form id="movie-form">
+                    <!-- Set initial setState -->
+                    <amp-state id="search">
+                    <script type="application/json">
+                        {
+                          "movie":""
+                         }
+                      </script>
+                    </amp-state>
+                <form action="GET" id="movie-form">
                     <label for="movie-input">
                         <span>Search for a movie title:</span>
                         <input type="search" id="movie-input" on='input-throttled:AMP.setState({movie: event.value})'
@@ -104,29 +114,19 @@
                     </label>
                     <br>
                 </form>
-                <!-- </amp-script> -->
-                <!-- Event for when typing stops, & runs API call-->
-                <!-- eventName:targetID[.methodName[(arg1=value, arg2=value)]] -->
-                <!-- movieRequest:movie-input[ on=input-debounced[()]]  -->
-                <!-- <script id="state-script" type="text/plain" target="amp-script">
-                const movie = document.getElementById("movie-input");
-            
-               movie.addEventListener(
-                  'change',
-                  () => console.log(movie));
-              </script> -->
-
             </div>
-            <!-- Search Results in amp-list -->
-            <!-- for loop for going through response list -->
-            <!-- dynamically recreate image and title within for loop -->
+            <!-- Search Results in amp-list as you can not use loops -->
             <div class="movie-results">
                 <div [text]="movie"></div>
-                <amp-list width="auto" height="100" layout="fixed-height"
-                    src="https://www.omdbapi.com/?apikey=c2f9b89f&t=" + [text]="movie" >
+                <!-- <amp-list> -->
+                <amp-list width="auto" height="100" layout="fixed-height" single-item items="."
+                    [src]=
+                    "'https://www.omdbapi.com/?r&t=' + movie + '&apikey=c2f9b89f'">
                     <template type="amp-mustache">
                         <div class="movie-entry">
+                            <!-- Movie  title -->
                             <h3>{{Title}}</h3>
+                            <!-- Cover Img amp-image must have height and width and layout responsive -->
                             <amp-img
                             src={{Poster}}
                             alt="{{Title}} pic" height="500" width="800" layout="responsive"
@@ -134,15 +134,6 @@
                         </div>
                     </template>
                 </amp-list>
-
-
-                <!-- <amp-list> -->
-                <!-- <amp-img> -->
-                <!-- <amp-img :src="movie.Poster" width="197" height="310" layout="responsive" alt="a sample poster" /> -->
-                <!-- </amp-img> -->
-                <!-- </amp-list> -->
-                <!-- Cover Img amp-image must have height and width and layout responsive -->
-                <!-- Movie  title -->
             </div>
         </div>
     </main>
