@@ -97,16 +97,15 @@
         <div class="main-content">
             <div class="movie-search">
                 <!-- Text input for title -->
-                <!-- <amp-script layout="container" script="state-script" class="sample"> -->
-                    <!-- Set initial setState -->
-                    <amp-state id="search">
+                <!-- Set initial setState -->
+                <amp-state id="search">
                     <script type="application/json">
                         {
                           "movie":""
                          }
                       </script>
-                    </amp-state>
-                <form action="GET" id="movie-form">
+                </amp-state>
+                <form action="GET" id="movie-form" target="_top">
                     <label for="movie-input">
                         <span>Search for a movie title:</span>
                         <input type="search" id="movie-input" on='input-throttled:AMP.setState({movie: event.value})'
@@ -118,19 +117,16 @@
             <!-- Search Results in amp-list as you can not use loops -->
             <div class="movie-results">
                 <div [text]="movie"></div>
-                <!-- <amp-list> -->
+                <!-- amp-list for some reason amp-list only would take array and "single-item items tag aided in fixing that"-->
                 <amp-list width="auto" height="100" layout="fixed-height" single-item items="."
-                    [src]=
-                    "'https://www.omdbapi.com/?r&t=' + movie + '&apikey=c2f9b89f'">
+                    [src]="'https://www.omdbapi.com/?r&t=' + movie + '&apikey=c2f9b89f'">
                     <template type="amp-mustache">
                         <div class="movie-entry">
                             <!-- Movie  title -->
                             <h3>{{Title}}</h3>
                             <!-- Cover Img amp-image must have height and width and layout responsive -->
-                            <amp-img
-                            src={{Poster}}
-                            alt="{{Title}} pic" height="500" width="800" layout="responsive"
-                            ></amp-img>
+                            <amp-img src={{Poster}} alt="{{Title}} pic" height="500" width="800" layout="responsive">
+                            </amp-img>
                         </div>
                     </template>
                 </amp-list>
