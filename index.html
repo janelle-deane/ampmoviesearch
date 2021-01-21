@@ -7,6 +7,10 @@
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <!-- amp form script -->
     <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
+    <!-- amp list -->
+    <script async custom-element="amp-list" src="https://cdn.ampproject.org/v0/amp-list-0.1.js"></script>
+    <!-- amp-bind -->
+    <script async custom-element="amp-bind" src="https://cdn.ampproject.org/v0/amp-bind-0.1.js"></script>
     <title>Best Movie Search Ever! </title>
     <!-- Update with actual url after deployment it will direct to HTML in itself since no other HTML file exists-->
     <link rel="canonical" href="./regular-html-version.html">
@@ -91,54 +95,51 @@
         <div class="main-content">
             <div class="movie-search">
                 <!-- Text input for title -->
-                <form id="movie-form"
-                method="GET"
-                action>
+                <!-- <amp-script layout="container" script="state-script" class="sample"> -->
+                <form id="movie-form">
                     <label for="movie-input">
                         <span>Search for a movie title:</span>
-                        <input type="search" id="movie-input" required>
+                        <input type="search" id="movie-input" on='input-throttled:AMP.setState({movie: event.value})'
+                            required>
                     </label>
                     <br>
                 </form>
-
+                <!-- </amp-script> -->
                 <!-- Event for when typing stops, & runs API call-->
                 <!-- eventName:targetID[.methodName[(arg1=value, arg2=value)]] -->
                 <!-- movieRequest:movie-input[ on=input-debounced[()]]  -->
-                <script type="text/javascript">
-                    // This .on("click") function will trigger the AJAX Call
-                    $("#find-movie").on("click", function(event) {
-              
-                      // event.preventDefault() can be used to prevent an event's default behavior.
-                      // Here, it prevents the submit button from trying to submit a form when clicked
-                      event.preventDefault();
-              
-                      // Here we grab the text from the input box
-                      var movie = $("#movie-input").val();
-              
-                      // Here we construct our URL
-                      var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=c2f9b89f";
-              
-                      $.ajax({
-                        url: queryURL,
-                        method: "GET"
-                      }).then(function(response) {
-                          console.log(response)
-                        $("#movie-view").text(JSON.stringify(response));
-                      });
-              
-                    });
-                  </script>
+                <!-- <script id="state-script" type="text/plain" target="amp-script">
+                const movie = document.getElementById("movie-input");
+            
+               movie.addEventListener(
+                  'change',
+                  () => console.log(movie));
+              </script> -->
 
             </div>
             <!-- Search Results in amp-list -->
             <!-- for loop for going through response list -->
             <!-- dynamically recreate image and title within for loop -->
             <div class="movie-results">
+                <div [text]="movie"></div>
+                <amp-list width="auto" height="100" layout="fixed-height"
+                    src="https://www.omdbapi.com/?apikey=c2f9b89f&t=" + [text]="movie" >
+                    <template type="amp-mustache">
+                        <div class="movie-entry">
+                            <h3>{{Title}}</h3>
+                            <amp-img
+                            src={{Poster}}
+                            alt="{{Title}} pic" height="500" width="800" layout="responsive"
+                            ></amp-img>
+                        </div>
+                    </template>
+                </amp-list>
+
+
                 <!-- <amp-list> -->
-                    <!-- <amp-img> -->
-                        <!-- <amp-img :src="movie.Poster" width="197" height="310" layout="responsive" alt="a sample poster" /> -->
-                    <!-- </amp-img> -->
-                    <h3 id="movie-title">Sample</h3>
+                <!-- <amp-img> -->
+                <!-- <amp-img :src="movie.Poster" width="197" height="310" layout="responsive" alt="a sample poster" /> -->
+                <!-- </amp-img> -->
                 <!-- </amp-list> -->
                 <!-- Cover Img amp-image must have height and width and layout responsive -->
                 <!-- Movie  title -->
