@@ -5,10 +5,81 @@
     <meta charset="utf-8">
     <!-- This loads AMP JS library (should be done at the top so that it can be utitlized which is unusual) -->
     <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <!-- amp form script -->
+    <script async custom-element="amp-form" src="https://cdn.ampproject.org/v0/amp-form-0.1.js"></script>
     <title>Best Movie Search Ever! </title>
     <!-- Update with actual url after deployment it will direct to HTML in itself since no other HTML file exists-->
     <link rel="canonical" href="./regular-html-version.html">
     <meta name="viewport" content="width=device-width">
+    <!-- requirement for AMP hides css until js library is done downloading -->
+    <style amp-boilerplate>
+        body {
+            -webkit-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -moz-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            -ms-animation: -amp-start 8s steps(1, end) 0s 1 normal both;
+            animation: -amp-start 8s steps(1, end) 0s 1 normal both
+        }
+
+        @-webkit-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-moz-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-ms-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @-o-keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+
+        @keyframes -amp-start {
+            from {
+                visibility: hidden
+            }
+
+            to {
+                visibility: visible
+            }
+        }
+    </style><noscript>
+        <style amp-boilerplate>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none
+            }
+        </style>
+    </noscript>
+
 </head>
 
 <body>
@@ -18,19 +89,58 @@
     </header>
     <main>
         <div class="main-content">
-            <!-- Text input for title currently has button but to remove in further version -->
-            <form id="movie-form">
-                <label for="movie-input">Search for a movie title</label>
-                <input type="text" id="movie-input"><br>
-                <!-- This button will trigger our AJAX call -->
-                <input id="find-movie" type="submit" value="Movie Search">
-              </form>
+            <div class="movie-search">
+                <!-- Text input for title -->
+                <form id="movie-form"
+                method="GET"
+                action>
+                    <label for="movie-input">
+                        <span>Search for a movie title:</span>
+                        <input type="search" id="movie-input" required>
+                    </label>
+                    <br>
+                </form>
 
-            <!-- Event for when typing stops, & runs API call-->
+                <!-- Event for when typing stops, & runs API call-->
+                <!-- eventName:targetID[.methodName[(arg1=value, arg2=value)]] -->
+                <!-- movieRequest:movie-input[ on=input-debounced[()]]  -->
+                <script type="text/javascript">
+                    // This .on("click") function will trigger the AJAX Call
+                    $("#find-movie").on("click", function(event) {
+              
+                      // event.preventDefault() can be used to prevent an event's default behavior.
+                      // Here, it prevents the submit button from trying to submit a form when clicked
+                      event.preventDefault();
+              
+                      // Here we grab the text from the input box
+                      var movie = $("#movie-input").val();
+              
+                      // Here we construct our URL
+                      var queryURL = "https://www.omdbapi.com/?t=" + movie + "&apikey=c2f9b89f";
+              
+                      $.ajax({
+                        url: queryURL,
+                        method: "GET"
+                      }).then(function(response) {
+                          console.log(response)
+                        $("#movie-view").text(JSON.stringify(response));
+                      });
+              
+                    });
+                  </script>
 
+            </div>
             <!-- Search Results in amp-list -->
+            <!-- for loop for going through response list -->
+            <!-- dynamically recreate image and title within for loop -->
             <div class="movie-results">
-                <!-- Cover Img amp-image must have height and width abd layout responsive -->
+                <!-- <amp-list> -->
+                    <!-- <amp-img> -->
+                        <!-- <amp-img :src="movie.Poster" width="197" height="310" layout="responsive" alt="a sample poster" /> -->
+                    <!-- </amp-img> -->
+                    <h3 id="movie-title">Sample</h3>
+                <!-- </amp-list> -->
+                <!-- Cover Img amp-image must have height and width and layout responsive -->
                 <!-- Movie  title -->
             </div>
         </div>
