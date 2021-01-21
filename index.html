@@ -93,15 +93,18 @@
             padding: 20px;
         }
 
-        h1, h2 {
+        h1,
+        h2 {
             text-align: center;
         }
+
         .movie-search {
-            display: flex; 
+            display: flex;
             justify-content: center;
             text-align: center;
-    
+
         }
+
         input {
             border-width: thick;
             border-color: cornflowerblue;
@@ -123,7 +126,8 @@
                 <amp-state id="search">
                     <script type="application/json">
                         {
-                          "movie":""
+                          "movie":"",
+                          "id": ""
                          }
                       </script>
                 </amp-state>
@@ -138,10 +142,9 @@
             </div>
             <!-- Search Results in amp-list as you can not use loops -->
             <div class="movie-results">
-                <!-- <div [text]="movie"></div> -->
                 <!-- amp-list for some reason amp-list only would take array and "single-item items tag aided in fixing that"-->
-                <amp-list width="auto" height="100" layout="fixed-height" single-item items="."
-                    [src]="'https://www.omdbapi.com/?r&t=' + movie + '&apikey=c2f9b89f'">
+                <amp-list width="auto" height="100" layout="fixed-height" items="Search"
+                    [src]="'https://www.omdbapi.com/?r&s=' + movie + '&apikey=c2f9b89f'">
                     <template type="amp-mustache">
                         <div class="movie-entry">
                             <!-- Movie  title -->
@@ -149,12 +152,22 @@
                             <!-- Cover Img amp-image must have height and width and layout responsive -->
                             <amp-img src={{Poster}} alt="{{Title}} pic" height="500" width="800" layout="responsive">
                             </amp-img>
-                            <p>{{Plot}}</p>
+                            <button id="{{imdbID}}" on='tap:AMP.setState({id: event.index})'>See More</button>
+                            <!-- attempt at see more button, need to understand how to have nested templates  -->
+                            <!-- <amp-list width="auto" height="100" layout="fixed-height" items single-item="."
+                                [src]="'https://www.omdbapi.com/?r&t=' + id + '&apikey=c2f9b89f'">
+                                <template type="amp-mustache">
+                                    <div class="more-dets">
+                                        <h3>Year:{{Year}}</h3>
+                                        <h3>Ratiing:{{imdbRating}}</h3>
+                                        <p>{{Plot}}</p>
+                                    </div>
+                                </template>
+                            </amp-list> -->
                         </div>
                     </template>
                 </amp-list>
-            </div>
-        </div>
+            </div>  
     </main>
 </body>
 
