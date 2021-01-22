@@ -134,7 +134,7 @@
                 <form action="GET" id="movie-form" target="_top">
                     <label for="movie-input">
                         <span>Search for a movie title:</span>
-                        <input type="search" id="movie-input" on='input-throttled:AMP.setState({movie: event.value})'
+                        <input type="search" id="movie-input" on='input-debounced:AMP.setState({movie: event.value})'
                             required>
                     </label>
                     <br>
