@@ -128,8 +128,7 @@
                 <amp-state id="search">
                     <script type="application/json">
                         {
-                          "movie":"",
-                          "id": "0"
+                          "movie":""
                          }
                       </script>
                 </amp-state>
@@ -154,18 +153,12 @@
                             <!-- Cover Img amp-image must have height and width and layout responsive -->
                             <amp-img src={{Poster}} alt="{{Title}} pic" height="500" width="800" layout="responsive">
                             </amp-img>
-                            <!-- <button id="{{imdbID}}" on='tap:AMP.setState({id: {{imdbID}}})'>See More</button> -->
-                            <!--see more button, need to understand how to have nested templates  -->
 
-                            <!-- <amp-list id="more-info" template="add-info" width="auto" height="100" layout="fixed-height"
-                                single-item items="." binding="refresh"
-                                [src]="'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'">
-                            </amp-list> -->
-
+                            <!-- See more button under accordion & additional API call made in amp-list -->
                             <div id="accordion">
                                 <amp-accordion>
                                     <section>
-                                        <h2>See More Info</h2>
+                                        <h2>See More</h2>
                                         <amp-list id="more-info" template="add-info" layout="fixed-height" height="250"
                                             binding="refresh"
                                             [src]="'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'"
@@ -176,44 +169,12 @@
                             </div>
                         </div>
                     </template>
+                    <!-- Template pulled out since you can not have nested templates for see more -->
                     <template type="amp-mustache" id="add-info">
                         <h3>Year:{{Year}}</h3>
                         <h3>Ratiing:{{imdbRating}}</h3>
                         <p>{{Plot}}</p>
                     </template>
-                    <!-- <template type="amp-mustache" id="add-info">
-                        <div class="more-dets">
-                            <h3>Year: {{Year}}</h3>
-                            <h3>Ratiing: {{imdbRating}}</h3>
-                            <p>{{Plot}}</p>
-                        </div>
-                    </template>  -->
-
-                    <!-- accordion potential -->
-
-                    <!--                    
-                    <div id="accordion" [hidden]="id == 0" hidden>
-                        <amp-state id="movieSearch"
-                            [src]="id == {{imdbID}} ? 'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'">
-                        </amp-state>
-                        <amp-accordion>
-                            <section>
-                                <h2>{{Title}}</h2>
-                                <amp-list id="more-info-acc" template="add-info-acc" layout="fixed-height" height="0"
-                                    binding="refresh"
-                                    [src]="'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'"
-                                    [is-layout-container]="true" single-item items=".">
-                                </amp-list>
-                            </section>
-                        </amp-accordion>
-                        <template type="amp-mustache" id="add-info-acc">
-                            <div class="more-dets">
-                                <h3>Year:{{Year}}</h3>
-                                <h3>Ratiing:{{imdbRating}}</h3>
-                                <p>{{Plot}}</p>
-                            </div>
-                        </template>
-                    </div> -->
                 </amp-list>
             </div>
     </main>
