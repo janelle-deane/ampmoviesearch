@@ -129,7 +129,7 @@
                     <script type="application/json">
                         {
                           "movie":"",
-                          "id": ""
+                          "id": "0"
                          }
                       </script>
                 </amp-state>
@@ -144,7 +144,7 @@
             </div>
             <!-- Search Results in amp-list as you can not use loops -->
             <div class="movie-results">
-                <!-- amp-list for some reason amp-list only would take array and "single-item items tag aided in fixing that"-->
+                <!-- amp-list so it will loop through array-->
                 <amp-list width="auto" height="100" layout="fixed-height" items="Search"
                     [src]="'https://www.omdbapi.com/?r&s=' + movie + '&apikey=c2f9b89f'">
                     <template type="amp-mustache">
@@ -154,43 +154,69 @@
                             <!-- Cover Img amp-image must have height and width and layout responsive -->
                             <amp-img src={{Poster}} alt="{{Title}} pic" height="500" width="800" layout="responsive">
                             </amp-img>
-                            <button id="{{imdbID}}" on='tap:AMP.setState({id: {{imdbID}}})'>See More</button>
-                            <!-- attempt at see more button, need to understand how to have nested templates  -->
-                            <amp-list id="more-info" template="add-info" width="auto" height="100" layout="fixed-height" single-item items="."
+                            <!-- <button id="{{imdbID}}" on='tap:AMP.setState({id: {{imdbID}}})'>See More</button> -->
+                            <!--see more button, need to understand how to have nested templates  -->
+
+                            <!-- <amp-list id="more-info" template="add-info" width="auto" height="100" layout="fixed-height"
+                                single-item items="." binding="refresh"
                                 [src]="'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'">
-                            </amp-list>
+                            </amp-list> -->
+
+                            <div id="accordion">
+                                <amp-accordion>
+                                    <section>
+                                        <h2>See More Info</h2>
+                                        <amp-list id="more-info" template="add-info" layout="fixed-height" height="250"
+                                            binding="refresh"
+                                            [src]="'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'"
+                                            [is-layout-container]="true" single-item items=".">
+                                        </amp-list>
+                                    </section>
+                                </amp-accordion>
+                            </div>
                         </div>
                     </template>
                     <template type="amp-mustache" id="add-info">
+                        <h3>Year:{{Year}}</h3>
+                        <h3>Ratiing:{{imdbRating}}</h3>
+                        <p>{{Plot}}</p>
+                    </template>
+                    <!-- <template type="amp-mustache" id="add-info">
                         <div class="more-dets">
                             <h3>Year: {{Year}}</h3>
                             <h3>Ratiing: {{imdbRating}}</h3>
                             <p>{{Plot}}</p>
                         </div>
-                    </template>
+                    </template>  -->
+
+                    <!-- accordion potential -->
+
+                    <!--                    
+                    <div id="accordion" [hidden]="id == 0" hidden>
+                        <amp-state id="movieSearch"
+                            [src]="id == {{imdbID}} ? 'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'">
+                        </amp-state>
+                        <amp-accordion>
+                            <section>
+                                <h2>{{Title}}</h2>
+                                <amp-list id="more-info-acc" template="add-info-acc" layout="fixed-height" height="0"
+                                    binding="refresh"
+                                    [src]="'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'"
+                                    [is-layout-container]="true" single-item items=".">
+                                </amp-list>
+                            </section>
+                        </amp-accordion>
+                        <template type="amp-mustache" id="add-info-acc">
+                            <div class="more-dets">
+                                <h3>Year:{{Year}}</h3>
+                                <h3>Ratiing:{{imdbRating}}</h3>
+                                <p>{{Plot}}</p>
+                            </div>
+                        </template>
+                    </div> -->
                 </amp-list>
             </div>
     </main>
 </body>
 
 </html>
-
-
-                            <!-- accordion potential -->
-                            <!-- <div id="accordion" [hidden]="id == 0" hidden>
-                                <amp-state id="movieSearch"
-                                    [src]="id !=0 ? 'https://www.omdbapi.com/?r&t=' + {{imdbID}} + '&apikey=c2f9b89f'">
-                                </amp-state>
-                                <amp-accordion>
-                                    <section>
-                                        <h2>{{Title}}</h2>
-                                             <template type="amp-mustache">
-                                                 <div class="more-dets">
-                                                 <h3>Year:{{Year}}</h3>
-                                                 <h3>Ratiing:{{imdbRating}}</h3>
-                                                  <p>{{Plot}}</p>
-                                                 </div>
-                                                </template>
-                                    </section>
-                                </amp-accordion>
-                            </div> -->
