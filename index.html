@@ -107,12 +107,10 @@
             align-items: center;
         }
 
-           /* .movie-search {
-            justify-content: center;
-            text-align: center;
-            padding: 10px;
-
-        } */
+        .movie-results {
+            padding:20px;
+            padding-top: 50px;
+        }
 
         h1,
         h2 {
@@ -219,6 +217,16 @@
     <header class="headerbar">
         <div role="button" on="tap:sidebar1.toggle" tabindex="0" class="hamburger">☰</div>
         <div class="site-name">Movie Search</div>
+        <!-- Text input for title -->
+        <form action="GET" id="movie-form" target="_top">
+            <label for="movie-input">
+                <input type="search" id="movie-input" 
+                placeholder="Search for a movie title"
+                on='input-debounced:AMP.setState({movie: event.value})'
+                    required>
+            </label>
+            <br>
+        </form>
     </header>
 
     <!-- Side Bar -->
@@ -235,23 +243,16 @@
     <main>
         <div class="main-content">
             <div class="movie-search">
-                <!-- Text input for title -->
                 <!-- Set initial setState -->
                 <amp-state id="search">
                     <script type="application/json">
                         {
-                          "movie":""
+                          "movie":"",
+                          "id":""
                          }
                       </script>
                 </amp-state>
-                <form action="GET" id="movie-form" target="_top">
-                    <label for="movie-input">
-                        <span>Search for a movie title:</span>
-                        <input type="search" id="movie-input" on='input-debounced:AMP.setState({movie: event.value})'
-                            required>
-                    </label>
-                    <br>
-                </form>
+                
             </div>
             <!-- Search Results in amp-list as you can not use loops -->
             <div class="movie-results">
@@ -268,9 +269,10 @@
 
                             <!-- See more button under accordion & additional API call made in amp-list -->
                             <div id="accordion">
+                                <!-- amp-accordion so that you can see more -->
                                 <amp-accordion>
                                     <section>
-                                        <h2 id="see-more-btn">
+                                        <h2 id="see-more-btn" >
                                             <span class="show">Show More</span>
                                             <span class="hide">Hide</span>
                                         </h2>
