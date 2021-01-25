@@ -15,6 +15,8 @@
     <script async custom-template="amp-mustache" src="https://cdn.ampproject.org/v0/amp-mustache-0.2.js"></script>
     <!-- amp-accordion -->
     <script async custom-element="amp-accordion" src="https://cdn.ampproject.org/v0/amp-accordion-0.1.js"></script>
+    <!-- amp side bar -->
+    <script async custom-element="amp-sidebar" src="https://cdn.ampproject.org/v0/amp-sidebar-0.1.js"></script>
     <title>Best Movie Search Ever! </title>
     <!-- Update with actual url after deployment it will direct to HTML in itself since no other HTML file exists-->
     <link rel="canonical" href="./regular-html-version.html">
@@ -92,53 +94,122 @@
         body {
             font-family: sans-serif;
             line-height: 1.5rem;
-            padding: 20px;
-            background: rgb(169, 169, 169);
+            background: #F1F1D4;
         }
+
+        .movie-search {
+            padding: 20px;
+            position: fixed;
+            z-index: 999;
+            top: 30px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+        }
+
+           /* .movie-search {
+            justify-content: center;
+            text-align: center;
+            padding: 10px;
+
+        } */
+
         h1,
         h2 {
             text-align: center;
             color: rgb(161, 44, 132)
         }
+
         span {
+            font-size: large;
             font-weight: bold;
             border-bottom: 2px solid rgb(161, 44, 132)
         }
-        .movie-search {
-            display: flex;
-            justify-content: center;
-            text-align: center;
 
-        }
         input {
             border-width: thick;
             border-color: cornflowerblue;
+            margin: 10px;
         }
 
-        section{
+        section {
             padding: 10px;
         }
+
+        .home-button {
+            margin-top: 8px;
+        }
+
+        .headerbar {
+            height: 50px;
+            position: fixed;
+            z-index: 999;
+            top: 0;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background: rgb(161, 44, 132);
+            color: #fff;
+            font-size: large;
+            font-weight: bold;
+        }
+
+        .site-name {
+            margin: auto;
+        }
+
+        article {
+            margin-top: 50px;
+        }
+
+        .hamburger {
+            padding-left: 10px;
+        }
+
+        .sidebar {
+            padding: 10px;
+            margin: 0;
+        }
+
+        .sidebar>li {
+            list-style: none;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            text-decoration: none;
+        }
+
+        .close-sidebar {
+            font-size: 1.5em;
+            padding-left: 5px;
+        }
+
         amp-accordion {
             background-color: lightgrey;
         }
-        amp-accordion section[expanded]>section{
-            padding:20px;
-        }
-        amp-accordion section[expanded] .show{
-            display:none
-            }
-        amp-accordion section:not([expanded]) .hide{
-            display:none
-            }
-        amp-accordion section:not([expanded])>h2{
-            background:rgb(161, 44, 132);
-            color:#fff
-            }
-        amp-accordion section[expanded]>h2{
-            background:#fff;
-            color:rgb(161, 44, 132);
-            }
 
+        amp-accordion section[expanded]>section {
+            padding: 20px;
+        }
+
+        amp-accordion section[expanded] .show {
+            display: none
+        }
+
+        amp-accordion section:not([expanded]) .hide {
+            display: none
+        }
+
+        amp-accordion section:not([expanded])>h2 {
+            background: rgb(161, 44, 132);
+            color: #fff
+        }
+
+        amp-accordion section[expanded]>h2 {
+            background: #fff;
+            color: rgb(161, 44, 132);
+        }
     </style>
 
 </head>
@@ -146,8 +217,21 @@
 <body>
     <!-- Header -->
     <header class="headerbar">
-        <h1>Movie Search</h1>
+        <div role="button" on="tap:sidebar1.toggle" tabindex="0" class="hamburger">☰</div>
+        <div class="site-name">Movie Search</div>
     </header>
+
+    <!-- Side Bar -->
+    <amp-sidebar id="sidebar1" layout="nodisplay" side="left">
+        <div role="button" aria-label="close sidebar" on="tap:sidebar1.toggle" tabindex="0" class="close-sidebar">✕
+        </div>
+        <ul class="sidebar">
+            <li><a href="#">Future Page 1</a></li>
+            <li><a href="#">Future Page 2</a></li>
+            <li><a href="#">Future Page 3</a></li>
+        </ul>
+    </amp-sidebar>
+
     <main>
         <div class="main-content">
             <div class="movie-search">
